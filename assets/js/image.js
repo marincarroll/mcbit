@@ -1,3 +1,3 @@
-window.onload = function() {
-    console.log('there is an image block here');
-}
+window.onload = function () {
+	console.log('there is an image block here');
+};

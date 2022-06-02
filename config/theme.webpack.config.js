@@ -1,5 +1,5 @@
-const defaultConfig = require( '@wordpress/scripts/config/webpack.config' ),
-	  NoEmitPlugin  = require('no-emit-webpack-plugin');
+const defaultConfig = require('@wordpress/scripts/config/webpack.config'),
+	NoEmitPlugin = require('no-emit-webpack-plugin');
 
 const path = require('path');
 
@@ -8,17 +8,14 @@ module.exports = {
 	context: path.resolve(__dirname, '../assets/scss'),
 	entry: {
 		editor: './editor.scss',
-		style : './style.scss',
- 	}, 
+		style: './style.scss',
+	},
 	optimization: {
 		...defaultConfig.optimization,
-		splitChunks: false
+		splitChunks: false,
 	},
 	plugins: [
 		...defaultConfig.plugins,
-		new NoEmitPlugin( [ 
-			'editor.js', 
-			'style.js'
-		] )
-	]
+		new NoEmitPlugin(['editor.js', 'style.js']),
+	],
 };
