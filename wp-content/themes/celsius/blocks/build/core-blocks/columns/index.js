@@ -1,1 +1,0 @@
-wp.blocks.registerBlockStyle("core/columns",[{name:"border",label:"Border-Separated"}]);

@@ -1,1 +1,0 @@
-wp.blocks.registerBlockStyle("core/menu",[{name:"test",label:"Example Style"}]);

@@ -1,1 +1,0 @@
-!function(){"use strict";var e=window.wp.hooks,n=window.wp.element;(0,e.addFilter)("blocks.getSaveElement","mcbit/add-video-wrapper",((e,r)=>{if(e){if("core/video"==r.name){const r=(0,n.createElement)("div",{},e.props.children);return(0,n.cloneElement)(e,{},r)}return e}}))}();
