@@ -1,0 +1,1 @@
+wp.blocks.registerBlockStyle("core/button",[{name:"underline",label:"Underline"}]);

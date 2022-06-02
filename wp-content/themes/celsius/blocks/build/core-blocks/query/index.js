@@ -1,0 +1,1 @@
+!function(){"use strict";var e=window.wp.hooks,t=window.wp.data;(0,e.addFilter)("blocks.getSaveElement","mcbit/exclude-current-post",((e,r,o)=>{if(e){if("core/query"==r.name){const e=(0,t.select)("core/editor").getCurrentPostId();o.query.exclude=[e]}return e}}))}();
