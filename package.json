@@ -11,16 +11,15 @@
 		"url": "https://github.com/marincarroll/mcbits"
 	},
 	"scripts": {
-		"build:blocks": "wp-scripts build --output-path=blocks/build --config=config/blocks.webpack.config.js",
-		"start:blocks": "wp-scripts start --output-path=blocks/build --config=config/blocks.webpack.config.js",
+		"build:blocks": "wp-scripts build --webpack-copy-php --output-path=blocks/build --config=config/blocks.webpack.config.js",
+		"start:blocks": "wp-scripts start --webpack-copy-php --output-path=blocks/build --config=config/blocks.webpack.config.js",
 		"build:theme": "wp-scripts build --webpack-no-externals --output-path=assets/css --config=config/theme.webpack.config.js",
 		"start:theme": "wp-scripts start --webpack-no-externals --output-path=assets/css --config=config/theme.webpack.config.js",
 		"build": "npm run build:blocks && npm run build:theme",
-		"start": "npm run start:blocks && npm run start:theme",
+		"start": "npm run start:blocks & npm run start:theme",
 		"format": "wp-scripts format",
-		"packages-update": "wp-scripts packages-update",
-		"check-engines": "wp-scripts check-engines",
-		"plugin-zip": "wp-scripts plugin-zip",
+		"lint:css": "wp-scripts lint-style",
+        "lint:js": "wp-scripts lint-js",
 		"rtl": "rtlcss assets/css/style.css assets/css/style-rtl.css",
 		"make-pot": "wp-pot --dest-file=languages/mcbit.pot"
 	},

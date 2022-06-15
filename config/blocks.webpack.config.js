@@ -1,16 +1,33 @@
-const defaultConfig = require('@wordpress/scripts/config/webpack.config');
-const fs = require('fs');
-const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const fs = require( 'fs' );
+const { resolve } = require('path');
 
-function getEntries(parentDir) {
-	return fs.readdirSync(`blocks/src/${parentDir}`).reduce((entries, blockDir) => {
-		const name = `${parentDir}/${blockDir}`;
-		entries[name] = `./${name}`;
-
-		return entries;
-	}, {});
+function getEntries( dir ) {
+	return fs
+		   .readdirSync( `blocks/src/${ dir }` )
+		   .reduce( ( entries, path ) => {
+				let name =  `${ dir }/${ path }`;
+				entries[ name ] = `./${ name }`;
+				
+				return entries;
+			}, {} );
 }
+
+const chunkConfig = {
+	...defaultConfig.optimization.splitChunks.cacheGroups.style,
+	name( _, chunks, cacheGroupKey ) {
+		const chunkName = chunks[ 0 ].name;
+		return `${ 	chunkName }/${ cacheGroupKey }`;
+	}
+};
+
+defaultConfig.plugins.map( p => {
+    if(p.constructor.name == 'CopyPlugin') {
+		//Default context of "src/" conflicted with our structure.
+		p.patterns[0].context = '';
+    }
+	return p;
+});
 
 /**
  * Partially inspired by
@@ -18,32 +35,44 @@ function getEntries(parentDir) {
  */
 module.exports = {
 	...defaultConfig,
-	context: path.resolve(__dirname, '../blocks/src'),
+	stats: {
+		modules: false
+	},
+	context: resolve(__dirname, '../blocks/src'),
 	entry: {
 		...getEntries('core-blocks'),
 		...getEntries('custom-blocks'),
-		'text-format': './text-format',
-		'global-attr': './global-attr',
-	},
+		tooltip : './tooltip',
+		fadeup  : './fadeup',
+ 	}, 
 	output: {
 		...defaultConfig.output,
-		filename: '[name]/index.js',
+		filename: '[name]/index.js'
+	},
+	optimization: {
+		...defaultConfig.optimization,
+		chunkIds: "named",
+		splitChunks: {
+			cacheGroups: {
+				...defaultConfig.optimization.splitChunks.cacheGroups,
+				style: {
+					...chunkConfig
+				},
+				editor: {
+					...chunkConfig,
+					test: /[\\/]editor(\.module)?\.(sc|sa|c)ss$/
+				}
+			}
+		}
 	},
 	resolve: {
 		...defaultConfig.resolve,
 		alias: {
-			base: path.resolve(__dirname, `./assets/scss/base`),
-		},
+		  'base': resolve(__dirname, '../assets/scss/base'),
+		  'img': resolve(__dirname, '../assets/img')
+		}
 	},
 	plugins: [
-		...defaultConfig.plugins,
-		new CopyWebpackPlugin({
-			patterns: [
-				{
-					from: '**/render.php',
-					noErrorOnMissing: true,
-				},
-			],
-		}),
-	],
+		...defaultConfig.plugins
+	]
 };

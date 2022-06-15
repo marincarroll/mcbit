@@ -10,7 +10,7 @@
  */
 add_action( 'init', 'mcbit_register_blocks' );
 function mcbit_register_blocks() {
-	$dirs = glob( MCBIT_BLOCKS_DIR  . 'src/custom-blocks/*' );
+	$dirs = glob( MCBIT_BLOCKS_DIR  . 'build/custom-blocks/*' );
 	foreach ( $dirs as $dir ) {
 		$options = [];
 
